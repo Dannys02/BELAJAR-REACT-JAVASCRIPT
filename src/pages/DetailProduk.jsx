@@ -20,12 +20,29 @@ function DetailProduk() {
 
     return (
         <div style={{ padding: "20px" }}>
-            <button onClick={() => navigate(-1)}>← Kembali</button>
-            <h3>{produk.title}</h3>
-            <p>Harga: ${produk.price}</p>
-            <p>Kategori: {produk.category}</p>
-            <p>deskripsi: {produk.description}</p>
-            <p>stok: {produk.stock}</p>
+            <div className="w-full flex justify-start">
+                <button onClick={() => navigate(-1)}>← Kembali</button>
+            </div>
+
+            <div className="max-w-2xl rounded-md p-4 mt-4 flex flex-col items-center mx-auto">
+
+                <div className="w-full border border-white flex justify-center">
+                    <img
+                        src={produk.images[0]}
+                        alt={produk.title}
+                        className="h-64 aspect-square object-cover mb-4"
+                    />
+                </div>
+
+                <div className="text-start w-full">
+                    <h3>{produk.title}</h3>
+                    <p>Harga: ${produk.price}</p>
+                    <p>Kategori: {produk.category}</p>
+                    <p>deskripsi: {produk.description}</p>
+                    <p>stok: {produk.stock}</p>
+                </div>
+
+            </div>
         </div>
     );
 }
