@@ -1,21 +1,31 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import UseFetch from "../hook/UseFetch";
 
 function DetailProduk() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const produk = UseFetch(`https://dummyjson.com/products/${id}`);
+    const {
+        data: produk,
+        isLoading,
+        isError
+    } = useQuery({
+        queryKey: ["produk", id],
+        queryFn: () =>
+            fetch(`https://dummyjson.com/products/${id}`).then(res => res.json())
+    });
 
-    if (!produk?.products) return <p>Loading...</p>;
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Gagal ambil data</p>;
+    if (!produk) return <p>Produk tidak ditemukan.</p>;
 
     return (
         <div style={{ padding: "20px" }}>
             <button onClick={() => navigate(-1)}>← Kembali</button>
-            <h3>{produk?.products?.title}</h3>
-            <p>Harga: ${produk?.products?.price}</p>
-            <p>Kategori: {produk?.products?.category}</p>
-            <p>deskripsi: {produk?.products?.description}</p>
+            <h3>{produk.title}</h3>
+            <p>Harga: ${produk.price}</p>
+            <p>Kategori: {produk.category}</p>
+            <p>deskripsi: {produk.description}</p>
+            <p>stok: {produk.stock}</p>
         </div>
     );
 }

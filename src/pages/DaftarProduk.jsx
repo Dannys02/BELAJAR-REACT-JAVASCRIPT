@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import UseFetch from "../hook/UseFetch";
 
 function DaftarProduk() {
-    // const produk = UseFetch("https://fakestoreapi.com/products");
+    // const produk = useFetch("https://fakestoreapi.com/products");
     const [kategori, setKategori] = useState("semua");
     const navigate = useNavigate();
 
@@ -28,7 +27,8 @@ function DaftarProduk() {
 
     return (
         <div style={{ padding: "20px" }}>
-            <h1>Daftar Produk</h1>
+            <h1 className="mb-6">Daftar Produk</h1>
+            <p>Pilih kategori: </p>
             <div style={{ marginBottom: "16px" }} className="space-x-2">
                 <button
                     onClick={() => setKategori("semua")}
@@ -69,24 +69,15 @@ function DaftarProduk() {
             </div>
 
             <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(1, 1fr)",
-                    gap: "16px"
-                }}
+              className="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             >
                 {filterProduk.map(item => (
                     <div
                         key={item.id}
                         onClick={() => navigate(`/produk/${item.id}`)}
-                        style={{
-                            border: "1px solid #ccc",
-                            padding: "16px",
-                            borderRadius: "8px",
-                            cursor: "pointer"
-                        }}
+                        className="flex flex-col items-start border border-white p-4 rounded-md cursor-pointer"
                     >
-                        <h3>{item.title}</h3>
+                        <h3 className="truncate max-w-36">{item.title}</h3>
                         <p>Harga: ${item.price}</p>
                         <p>Kategori: {item.category}</p>
                     </div>
