@@ -9,7 +9,7 @@ function TambahProduk() {
     const [form, setForm] = useState({
         title: "",
         price: "",
-        category: "",
+        category: ""
     });
 
     const tambah = useMutation({
@@ -17,14 +17,15 @@ function TambahProduk() {
             fetch("https://dummyjson.com/products/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            }).then((res) => res.json()),
-                onSuccess: () => {
-                    queryClient.invalidateQueries(["produk"]);
-                    alert("Produk berhasil ditambahkan");
-                    navigate("/produk");
-                },
-        });
+                body: JSON.stringify(form)
+            }).then(res => res.json());
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["produk"]);
+            alert("Produk berhasil ditambahkan");
+            navigate("/produk");
+        }
+    });
 
     return (
         <div style={{ padding: "20px" }}>

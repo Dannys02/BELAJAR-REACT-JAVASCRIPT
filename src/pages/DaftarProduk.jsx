@@ -21,17 +21,17 @@ function DaftarProduk() {
 
     // hapus data dari API https://dummyjson.com/products/{id}
     const hapus = useMutation({
-        mutationFn: (id) =>
+        mutationFn: id =>
             fetch(`https://dummyjson.com/products/${id}`, {
-                method: "DELETE",
-            }).then((res) => res.json()),
+                method: "DELETE"
+            }).then(res => res.json()),
         onSuccess: (data, id) => {
-            queryClient.setQueryData(["produk"], (old) => ({
+            queryClient.setQueryData(["produk"], old => ({
                 ...old,
-                products: old.products.filter((item) => item.id !== id),
+                products: old.products.filter(item => item.id !== id)
             }));
             alert("Produk berhasil dihapus");
-        },
+        }
         // Buat hapus data beneran di API asli
         // onSuccess: () => {
         // queryClient.invalidateQueries(["produk"]);
@@ -60,62 +60,86 @@ function DaftarProduk() {
                 </button>
                 <button
                     onClick={() => setKategori("beauty")}
-                    className={`${kategori === "beauty" ? "text-white" : ""
-                        }`}
+                    className={`${kategori === "beauty" ? "text-white" : ""}`}
                 >
                     beauty
                 </button>
                 <button
                     onClick={() => setKategori("fragrances")}
-                    className={`${kategori === "fragrances" ? "text-white" : ""}`}
+                    className={`${
+                        kategori === "fragrances" ? "text-white" : ""
+                    }`}
                 >
                     fragrances
                 </button>
                 <button
                     onClick={() => setKategori("furniture")}
-                    className={`${kategori === "furniture" ? "text-white" : ""
-                        }`}
+                    className={`${
+                        kategori === "furniture" ? "text-white" : ""
+                    }`}
                 >
                     furniture
                 </button>
                 <button
                     onClick={() => setKategori("groceries")}
-                    className={`${kategori === "groceries" ? "text-white" : ""
-                        }`}
+                    className={`${
+                        kategori === "groceries" ? "text-white" : ""
+                    }`}
                 >
                     groceries
                 </button>
             </div>
 
-            <div
-                className="grid gap-2 grid-cols-2 md:grid-cols-3"
-            >
+            <div className="grid gap-2 grid-cols-2 md:grid-cols-3">
                 {filterProduk.map(item => (
                     <div
                         key={item.id}
-                        className="flex flex-col items-center justify-center border border-white p-4 rounded-md cursor-pointer"
+                        className="relative flex flex-col items-center justify-center border border-white p-4 rounded-md cursor-pointer"
                     >
                         <div>
                             <img
                                 src={item.images[0]}
                                 alt={item.title}
-                                className="w-full h-48 object-cover mb-2"
+                                className="w-full h-18 md:h-48 object-cover mb-2"
                             />
                         </div>
                         <div className="text-start w-full">
-                            <h3 className="truncate max-w-36 md:max-w-full">{item.title}</h3>
+                            <h3 className="truncate max-w-36 md:max-w-full">
+                                {item.title}
+                            </h3>
                             <p>Harga: ${item.price}</p>
                             <p>Kategori: {item.category}</p>
                         </div>
-                        <div className="flex w-full justify-start items-center space-x-2 mt-6">
-                            <button className="bg-blue-600 text-white px-4 py-1 rounded-md" onClick={() => navigate(`/produk/${item.id}`)}>Detail</button>
-                            <button className="bg-yellow-600 text-black px-4 py-1 rounded-md" onClick={() => navigate(`/produk/${item.id}/edit`)}>Edit</button>
-                            <button className="bg-red-600 text-white px-4 py-1 rounded-md" onClick={() => {
-                                if (window.confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
+                        <div className="flex w-full justify-start items-center space-x-2 mt-6 text-xs">
+                            <button
+                                className="bg-blue-600 text-white px-4 py-1 rounded-md"
+                                onClick={() => navigate(`/produk/${item.id}`)}
+                            >
+                                Detail
+                            </button>
+                            <button
+                                className="bg-yellow-600 text-black px-4 py-1 rounded-md"
+                                onClick={() =>
+                                    navigate(`/produk/${item.id}/edit`)
+                                }
+                            >
+                                Edit
+                            </button>
+                        </div>
+                        <button
+                            className="absolute top-2 right-2 text-red-600 px-4 py-1 rounded-md"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        "Apakah Anda yakin ingin menghapus produk ini?"
+                                    )
+                                ) {
                                     hapus.mutate(item.id);
                                 }
-                            }}>Hapus</button>
-                        </div>
+                            }}
+                        >
+                            Hapus
+                        </button>
                     </div>
                 ))}
             </div>
